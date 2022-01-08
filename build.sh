@@ -60,6 +60,8 @@ cp --recursive ./images "${BUILD_DIR}"
 cp ./images/favicon.ico "${BUILD_DIR}"
 rm -rf "${BUILD_DIR}"/images/favicon.ico
 
+cp ./.gitignore "${BUILD_DIR}"
+
 mkdir -p ./tmp
 
 SITE_BASE_URL="${SITE_BASE_URL}" erb ./_templates/page.template.erb >./tmp/page.template
