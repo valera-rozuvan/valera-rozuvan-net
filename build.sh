@@ -61,6 +61,7 @@ cp ./images/favicon.ico "${BUILD_DIR}"
 rm -rf "${BUILD_DIR}"/images/favicon.ico
 
 cp ./.gitignore "${BUILD_DIR}"
+cp ./CNAME "${BUILD_DIR}"
 
 mkdir -p ./tmp
 
