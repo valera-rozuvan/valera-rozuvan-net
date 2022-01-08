@@ -3,6 +3,10 @@ title: Resume
 date: Sun 15 Dec 2013 08:41:15 AM EET
 ---
 
+## Last update
+
+This page was last updated on `Sun 09 Jan 2022 01:47:52 AM EET`.
+
 ## Quick stats
 
 ```text
