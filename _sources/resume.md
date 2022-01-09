@@ -1,6 +1,6 @@
 ---
 title: Resume
-date: Sun 15 Dec 2013 08:41:15 AM EET
+date: Thu 1 Jan 1970 00:00:00 AM EET
 ---
 
 ## Last update

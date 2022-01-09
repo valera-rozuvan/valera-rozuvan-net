@@ -1,6 +1,6 @@
 ---
 title: Contact
-date: Fri 13 Dec 2013 07:58:21 AM EET
+date: Thu 1 Jan 1970 00:00:00 AM EET
 ---
 
 you can contact me by sending an email to `valera` `at` `rozuvan` `dot` `net`

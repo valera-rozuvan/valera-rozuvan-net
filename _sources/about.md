@@ -1,6 +1,6 @@
 ---
 title: About
-date: Sat 14 Dec 2013 11:12:51 AM EET
+date: Thu 1 Jan 1970 00:00:00 AM EET
 ---
 
 Hello there. My name is Valera Rozuvan (Розуван Валерий in Russian). This is my corner of the Internet. For the longest time I didn't have an "about me" kind of page, because I didn't know what to put here :) Then one day I decided to treat this like a short version of my autobiography. Who knows, maybe one day I will expand this into an actual book?

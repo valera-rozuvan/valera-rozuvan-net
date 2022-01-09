@@ -46,6 +46,8 @@ pre {
 blockquote {
     color: dimgray;
     font-style: italic;
+    padding-left: 1em;
+    border-left: 0.5em solid black;
 }
 
 pre a, blockquote a {

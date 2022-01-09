@@ -1,4 +1,4 @@
-## Thoughts and Ideas
+## Thoughts and ideas
 <%
 require 'time'
 
@@ -16,7 +16,7 @@ Dir["_sources/*.md"].each do |f|
       # don't do anything
    end
 
-   posts.push({ :name => name, :title => title, :date => date })
+   posts.push({ :name => name, :title => title, :date => date }) if date != "1970-01-01"
 end
 
 sorted_posts = posts.sort_by { |k| k[:date] }.reverse!

@@ -1,6 +1,6 @@
 ---
 title: PGP Key
-date: Thu 12 Dec 2013 08:10:17 AM EET
+date: Thu 1 Jan 1970 00:00:00 AM EET
 ---
 
 ## Last update

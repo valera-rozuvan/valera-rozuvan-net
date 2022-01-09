@@ -1,6 +1,6 @@
 ---
 title: Projects
-date: Mon 16 Dec 2013 11:11:11 AM EET
+date: Thu 1 Jan 1970 00:00:00 AM EET
 ---
 
 ... coming soon ...
