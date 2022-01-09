@@ -93,7 +93,7 @@ pre a, blockquote a {
 
 @media (max-width: 375px) {
     body {
-        background: #f7f8f9;
+        /*background: #f7f8f9;*/
         font-size: 0.9em;
     }
 
@@ -105,7 +105,7 @@ pre a, blockquote a {
 
 @media (max-width: 320px) {
     body {
-        background: #f7f8f9;
+        /*background: #f7f8f9;*/
         font-size: 0.8em;
     }
 
