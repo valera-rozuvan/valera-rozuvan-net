@@ -172,7 +172,7 @@ Technologies used:
 - LAMP stack (setup, management)
 - PHP
 - front-end related (JavaScript, CSS, HTML)
-- Wordpress
+- WordPress
 
 ## Education
 
@@ -186,7 +186,7 @@ Bachelor's degree, electrooptic and laser techniques and technology (2006-2013)
 
 ## Skills
 
-- used Git, Mercuria, MS TFS, and SVN source code management systems extensively
+- used Git, Mercurial, MS TFS, and SVN source code management systems extensively
 - all team based work using scrum methodology, familiar with scrum master role, agile processes
 - team player, strong believer that great things are not a one-man-job
 - English is my second language (after Russian), spent 6.5 years in Canada, completing high school
@@ -210,7 +210,7 @@ Journal: Optics and Lasers in Engineering
 Published: January 1, 2009 
 ```
 
-For exact scitations, please refer to my [Google Scholar](https://scholar.google.com.ua/citations?hl=en&user=1LY0cckAAAAJ) profile.
+For exact citations, please refer to my [Google Scholar](https://scholar.google.com.ua/citations?hl=en&user=1LY0cckAAAAJ) profile.
 
 ## Languages
 

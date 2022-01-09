@@ -68,5 +68,4 @@ QbrWUCjeMs9ptFzPQUhYr4iKiKgvpGS8n0NdGoEAdP64mcocFRUFW6U3UnSHwMEb
 
 ## How I use the key
 
-Among other things, I use the GPG key to sign my git commits. As time goes by, and keys expire, I will update this page
-with my latest key.
+Among other things, I use the GPG key to sign my git commits. As time goes by, and keys expire, I will update this page with my latest key.
