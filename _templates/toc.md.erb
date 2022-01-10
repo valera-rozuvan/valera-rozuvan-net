@@ -14,9 +14,10 @@ Dir["_sources/*.md"].each do |f|
       date = Time.parse(date).strftime("%Y-%m-%d")
    rescue ArgumentError
       # don't do anything
+      date = "-"
    end
 
-   posts.push({ :name => name, :title => title, :date => date }) if date != "1970-01-01"
+   posts.push({ :name => name, :title => title, :date => date }) if date != "-"
 end
 
 sorted_posts = posts.sort_by { |k| k[:date] }.reverse!
