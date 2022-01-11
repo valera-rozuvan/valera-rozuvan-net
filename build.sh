@@ -50,9 +50,8 @@ if [ -z "${BUILD_DIR}" ]; then
   exit 1
 fi
 
+rm -rf "${BUILD_DIR}"
 mkdir -p "${BUILD_DIR}"
-rm -rf "${BUILD_DIR:?}/*"
-rm -rf "${BUILD_DIR:?}/.*"
 
 cp --recursive ./css "${BUILD_DIR}"
 cp --recursive ./images "${BUILD_DIR}"
@@ -62,6 +61,7 @@ rm -rf "${BUILD_DIR}"/images/favicon.ico
 
 cp ./.gitignore "${BUILD_DIR}"
 cp ./CNAME "${BUILD_DIR}"
+cp ./keybase.txt "${BUILD_DIR}"
 
 mkdir -p ./tmp
 
@@ -90,3 +90,8 @@ pandoc \
   ./tmp/license.md \
   -f markdown+smart --toc-depth=3 --toc --eol=lf --template ./tmp/page.template -s \
   -o "${BUILD_DIR}/index.html"
+
+rm -rf ./tmp
+
+echo "Done!"
+exit 0
