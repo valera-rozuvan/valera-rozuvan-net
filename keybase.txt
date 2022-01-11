@@ -1,0 +1,53 @@
+https://keybase.io/valera_rozuvan
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://valera.rozuvan.net
+  * I am valera_rozuvan (https://keybase.io/valera_rozuvan) on keybase.
+  * I have a public key ASDqf2xl5EVXf9ahHeD0BkZ9R5wEru5hB7Stu8_kgdE9rAo
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "0120f22828179fd82f1ae36330757b5bb4d4c4c1acb33aecb293020bdef4dcce67370a",
+      "host": "keybase.io",
+      "kid": "0120ea7f6c65e445577fd6a11de0f406467d479c04aeee6107b4adbbcfe481d13dac0a",
+      "uid": "18321997386022e0537c4f014614b719",
+      "username": "valera_rozuvan"
+    },
+    "merkle_root": {
+      "ctime": 1641892521,
+      "hash": "b6f1e19fad7402f71b7c9f9efb1e832d9e5fd4ce8e93bd6a62aa90fdb168c4297eb9d27adf8ef26c55e196f865c7b73fbb51242b004ebe62af9f36368d52e9bd",
+      "hash_meta": "21dad42028e086acd4bbba9cb957eaed7bcb76577f4ddcf03c849763499b781b",
+      "seqno": 21608080
+    },
+    "service": {
+      "entropy": "Zj4RYmOP5VGUkMRVFeeeQI2l",
+      "hostname": "valera.rozuvan.net",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 2
+  },
+  "client": {
+    "name": "keybase.io go client",
+    "version": "5.9.0"
+  },
+  "ctime": 1641892542,
+  "expire_in": 504576000,
+  "prev": "f677480d7d6cd9d9679d234bbc4452f95048114e5c9766d1177900b463341695",
+  "seqno": 28,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+hKRib2R5hqhkZXRhY2hlZMOpaGFzaF90eXBlCqNrZXnEIwEg6n9sZeRFV3/WoR3g9AZGfUecBK7uYQe0rbvP5IHRPawKp3BheWxvYWTESpcCHMQg9ndIDX1s2dlnnSNLvERS+VBIEU5cl2bRF3kAtGM0FpXEIAycuC+9jtNCX4KzHl4SxIVHZZWP6SooijCjnzYtfYj5AgHCo3NpZ8RA7P7L0rS+WikNT9tevMyCUB0J6zUWriWRZ2uUejyhp4GGsRreafvJWmsy9UzuLxfhRd28LOpDe8FIfmFcMH6uAahzaWdfdHlwZSCkaGFzaIKkdHlwZQildmFsdWXEILXDCGgtOugnvb4fhCX+oH+KchuuuhC5vdrVvJCGnKnOo3RhZ80CAqd2ZXJzaW9uAQ==
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/valera_rozuvan
