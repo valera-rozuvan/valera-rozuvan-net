@@ -6,6 +6,8 @@ title: PGP Key
 
 This page was last updated on `Sat 08 Jan 2022 03:19:12 PM EET`.
 
+As time goes by, GPG keys expire. I will be updating this page with the latest GPG key I am using.
+
 ## Primary public key
 
 This is the primary GPG key I am using right now:
@@ -65,6 +67,20 @@ QbrWUCjeMs9ptFzPQUhYr4iKiKgvpGS8n0NdGoEAdP64mcocFRUFW6U3UnSHwMEb
 -----END PGP PUBLIC KEY BLOCK-----
 ```
 
-## How I use the key
+Key fingerprint is:
 
-Among other things, I use the GPG key to sign my git commits. As time goes by, and keys expire, I will update this page with my latest key.
+```text
+8356 134F 128A 41D4 7A3B  2298 A0CE A06B 4F14 BB0C
+```
+
+## Available elsewhere
+
+You can find the GPG key on [Hockeypuck OpenPGP keyserver](https://keyserver.ubuntu.com). Or you can retrieve it via the CLI:
+
+```shell
+gpg --keyserver "hkp://keyserver.ubuntu.com" --search-key "A0CEA06B4F14BB0C"
+```
+
+## How I use the GPG key
+
+Among other things, I use the GPG key to sign my git commits.
