@@ -21,10 +21,12 @@
 <ul>
 <li><a href="#last-update">Last update</a></li>
 <li><a href="#primary-public-key">Primary public key</a></li>
-<li><a href="#how-i-use-the-key">How I use the key</a></li>
+<li><a href="#available-elsewhere">Available elsewhere</a></li>
+<li><a href="#how-i-use-the-gpg-key">How I use the GPG key</a></li>
 </ul>
 <h2 id="last-update">Last update</h2>
 <p>This page was last updated on <code>Sat 08 Jan 2022 03:19:12 PM EET</code>.</p>
+<p>As time goes by, GPG keys expire. I will be updating this page with the latest GPG key I am using.</p>
 <h2 id="primary-public-key">Primary public key</h2>
 <p>This is the primary GPG key I am using right now:</p>
 <pre class="text"><code>-----BEGIN PGP PUBLIC KEY BLOCK-----
@@ -79,8 +81,13 @@ QbrWUCjeMs9ptFzPQUhYr4iKiKgvpGS8n0NdGoEAdP64mcocFRUFW6U3UnSHwMEb
 2YCnOyFtRNRd6Grx5TwAqgUdWWj+BgbE7wXocbp66P0Hqs+JIC2D/7DK
 =gPDJ
 -----END PGP PUBLIC KEY BLOCK-----</code></pre>
-<h2 id="how-i-use-the-key">How I use the key</h2>
-<p>Among other things, I use the GPG key to sign my git commits. As time goes by, and keys expire, I will update this page with my latest key.</p>
+<p>Key fingerprint is:</p>
+<pre class="text"><code>8356 134F 128A 41D4 7A3B  2298 A0CE A06B 4F14 BB0C</code></pre>
+<h2 id="available-elsewhere">Available elsewhere</h2>
+<p>You can find the GPG key on <a href="https://keyserver.ubuntu.com">Hockeypuck OpenPGP keyserver</a>. Or you can retrieve it via the CLI:</p>
+<pre class="shell"><code>gpg --keyserver &quot;hkp://keyserver.ubuntu.com&quot; --search-key &quot;A0CEA06B4F14BB0C&quot;</code></pre>
+<h2 id="how-i-use-the-gpg-key">How I use the GPG key</h2>
+<p>Among other things, I use the GPG key to sign my git commits.</p>
     </div>
     </div>
   </body>
