@@ -22,4 +22,8 @@ Aside from my home page, I have Internet presence on other resources. Looking ov
 - [IMSLP](https://imslp.org/wiki/Category:Rozouvan,_Valerij_Stanislavovich)
 - [Mathematics Stack Exchange](https://math.stackexchange.com/users/126736/valera-rozuvan)
 
-Having way more things to do than I have free time, I must stop writing here. Have fun and take care ^_^v!
+Having way more things to do than I have free time, I must stop writing here.
+
+![](/images/zzVQiPPPz1CtqxeEmIP5qinbiODGGUFA.jpg){ style="width: 100%; max-width: 25em; margin: auto; display: block;" }
+
+Have fun and take care ^_^v!

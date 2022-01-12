@@ -73,7 +73,7 @@ for f in _sources/*"${extension}"; do
   filename=$(basename "$f" $extension)
   mkdir -p "${BUILD_DIR}/${filename}"
 
-  pandoc "$f" -f markdown+smart --toc-depth=3 --toc --eol=lf --template ./tmp/page.template -s -o "${BUILD_DIR}/${filename}/index.html"
+  pandoc "$f" -f markdown+smart+link_attributes --toc-depth=3 --toc --eol=lf --template ./tmp/page.template -s -o "${BUILD_DIR}/${filename}/index.html"
 done
 
 SITE_BASE_URL="${SITE_BASE_URL}" erb ./_templates/index.md.erb >./tmp/index.md
@@ -88,7 +88,7 @@ pandoc \
   ./tmp/toc.md \
   ./tmp/how-this-site-is-built.md \
   ./tmp/license.md \
-  -f markdown+smart --toc-depth=3 --toc --eol=lf --template ./tmp/page.template -s \
+  -f markdown+smart+link_attributes --toc-depth=3 --toc --eol=lf --template ./tmp/page.template -s \
   -o "${BUILD_DIR}/index.html"
 
 rm -rf ./tmp
