@@ -93,6 +93,10 @@ pre a, blockquote a {
     font-size: 0.75em;
 }
 
+.sourceCode {
+    overflow: auto;
+}
+
 @media (max-width: 375px) {
     body {
         /*background: #f7f8f9;*/
