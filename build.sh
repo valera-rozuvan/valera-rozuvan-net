@@ -73,7 +73,10 @@ for f in _sources/*"${extension}"; do
   filename=$(basename "$f" $extension)
   mkdir -p "${BUILD_DIR}/${filename}"
 
-  pandoc "$f" -f markdown+smart+link_attributes --toc-depth=3 --toc --eol=lf --template ./tmp/page.template -s -o "${BUILD_DIR}/${filename}/index.html"
+  pandoc \
+    "$f" \
+    -f markdown+smart+link_attributes+backtick_code_blocks --highlight-style tango --eol=lf --toc-depth=3 --toc --template ./tmp/page.template -s \
+    -o "${BUILD_DIR}/${filename}/index.html"
 done
 
 SITE_BASE_URL="${SITE_BASE_URL}" erb ./_templates/index.md.erb >./tmp/index.md
@@ -81,6 +84,14 @@ SITE_BASE_URL="${SITE_BASE_URL}" erb ./_templates/welcome.md.erb >./tmp/welcome.
 SITE_BASE_URL="${SITE_BASE_URL}" erb ./_templates/toc.md.erb >./tmp/toc.md
 SITE_BASE_URL="${SITE_BASE_URL}" erb ./_templates/how-this-site-is-built.md.erb >./tmp/how-this-site-is-built.md
 SITE_BASE_URL="${SITE_BASE_URL}" erb ./_templates/license.md.erb >./tmp/license.md
+SITE_BASE_URL="${SITE_BASE_URL}" erb ./_templates/sample.md.erb >./tmp/sample.md
+SITE_BASE_URL="${SITE_BASE_URL}" erb ./_templates/highlighting-css.template.erb >./tmp/highlighting-css.template
+
+pandoc \
+  ./tmp/index.md \
+  ./tmp/sample.md \
+  -f markdown+smart+link_attributes+backtick_code_blocks --highlight-style tango --eol=lf --toc-depth=3 --toc --template ./tmp/highlighting-css.template \
+  -o "${BUILD_DIR}/css/highlight.css"
 
 pandoc \
   ./tmp/index.md \
@@ -88,7 +99,7 @@ pandoc \
   ./tmp/toc.md \
   ./tmp/how-this-site-is-built.md \
   ./tmp/license.md \
-  -f markdown+smart+link_attributes --toc-depth=3 --toc --eol=lf --template ./tmp/page.template -s \
+  -f markdown+smart+link_attributes+backtick_code_blocks --highlight-style tango --eol=lf --toc-depth=3 --toc --template ./tmp/page.template -s \
   -o "${BUILD_DIR}/index.html"
 
 rm -rf ./tmp
