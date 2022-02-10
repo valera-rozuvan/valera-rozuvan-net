@@ -50,57 +50,54 @@ if [ -z "${BUILD_DIR}" ]; then
   exit 1
 fi
 
-rm -rf "${BUILD_DIR}"
 mkdir -p "${BUILD_DIR}"
+rm -rf "${BUILD_DIR:?}"/*
+rm -rf "${BUILD_DIR}"/.gitignore
 
-cp --recursive ./css "${BUILD_DIR}"
-cp --recursive ./images "${BUILD_DIR}"
-
-cp ./images/favicon.ico "${BUILD_DIR}"
-rm -rf "${BUILD_DIR}"/images/favicon.ico
-
-cp ./.gitignore "${BUILD_DIR}"
-cp ./CNAME "${BUILD_DIR}"
-cp ./keybase.txt "${BUILD_DIR}"
+cp --recursive ./.gitignore ./css ./images ./favicon.ico ./CNAME ./keybase.txt "${BUILD_DIR}"
 
 mkdir -p ./tmp
+rm -rf ./tmp/*
 
-SITE_BASE_URL="${SITE_BASE_URL}" erb ./_templates/page.template.erb >./tmp/page.template
+# content templates
+SITE_BASE_URL="${SITE_BASE_URL}" erb ./_templates/content/index.md.erb >./tmp/index.md
+SITE_BASE_URL="${SITE_BASE_URL}" erb ./_templates/content/welcome.md.erb >./tmp/welcome.md
+SITE_BASE_URL="${SITE_BASE_URL}" erb ./_templates/content/thoughts-and-ideas.md.erb >./tmp/thoughts-and-ideas.md
+SITE_BASE_URL="${SITE_BASE_URL}" erb ./_templates/content/how-this-site-is-built.md.erb >./tmp/how-this-site-is-built.md
+SITE_BASE_URL="${SITE_BASE_URL}" erb ./_templates/content/license.md.erb >./tmp/license.md
 
-extension=".md"
+# util templates
+SITE_BASE_URL="${SITE_BASE_URL}" erb ./_templates/util/sample-code.md.erb >./tmp/sample-code.md
+SITE_BASE_URL="${SITE_BASE_URL}" erb ./_templates/util/highlighting-css.template.erb >./tmp/highlighting-css.template
+SITE_BASE_URL="${SITE_BASE_URL}" erb ./_templates/util/page.template.erb >./tmp/page.template
 
-for f in _sources/*"${extension}"; do
-  filename=$(basename "$f" $extension)
+for f in _sources/*.md; do
+  filename=$(basename "$f" ".md")
   mkdir -p "${BUILD_DIR}/${filename}"
 
   pandoc \
     "$f" \
-    -f markdown+smart+link_attributes+backtick_code_blocks --highlight-style tango --eol=lf --toc-depth=3 --toc --template ./tmp/page.template -s \
-    -o "${BUILD_DIR}/${filename}/index.html"
+    -f markdown+smart+link_attributes+backtick_code_blocks --highlight-style tango --eol=lf --toc-depth=3 --toc -s \
+    --template ./tmp/page.template \
+    -o "${BUILD_DIR}/${filename}"/index.html
 done
-
-SITE_BASE_URL="${SITE_BASE_URL}" erb ./_templates/index.md.erb >./tmp/index.md
-SITE_BASE_URL="${SITE_BASE_URL}" erb ./_templates/welcome.md.erb >./tmp/welcome.md
-SITE_BASE_URL="${SITE_BASE_URL}" erb ./_templates/toc.md.erb >./tmp/toc.md
-SITE_BASE_URL="${SITE_BASE_URL}" erb ./_templates/how-this-site-is-built.md.erb >./tmp/how-this-site-is-built.md
-SITE_BASE_URL="${SITE_BASE_URL}" erb ./_templates/license.md.erb >./tmp/license.md
-SITE_BASE_URL="${SITE_BASE_URL}" erb ./_templates/sample.md.erb >./tmp/sample.md
-SITE_BASE_URL="${SITE_BASE_URL}" erb ./_templates/highlighting-css.template.erb >./tmp/highlighting-css.template
 
 pandoc \
   ./tmp/index.md \
-  ./tmp/sample.md \
-  -f markdown+smart+link_attributes+backtick_code_blocks --highlight-style tango --eol=lf --toc-depth=3 --toc --template ./tmp/highlighting-css.template \
-  -o "${BUILD_DIR}/css/highlight.css"
+  ./tmp/sample-code.md \
+  -f markdown+smart+link_attributes+backtick_code_blocks --highlight-style tango --eol=lf --toc-depth=3 --toc -s \
+  --template ./tmp/highlighting-css.template \
+  -o "${BUILD_DIR}"/css/highlight.css
 
 pandoc \
   ./tmp/index.md \
   ./tmp/welcome.md \
-  ./tmp/toc.md \
+  ./tmp/thoughts-and-ideas.md \
   ./tmp/how-this-site-is-built.md \
   ./tmp/license.md \
-  -f markdown+smart+link_attributes+backtick_code_blocks --highlight-style tango --eol=lf --toc-depth=3 --toc --template ./tmp/page.template -s \
-  -o "${BUILD_DIR}/index.html"
+  -f markdown+smart+link_attributes+backtick_code_blocks --highlight-style tango --eol=lf --toc-depth=3 --toc -s \
+  --template ./tmp/page.template \
+  -o "${BUILD_DIR}"/index.html
 
 rm -rf ./tmp
 
