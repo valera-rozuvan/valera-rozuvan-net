@@ -9,8 +9,8 @@ This page was last updated on `Sun 09 Jan 2022 01:47:52 AM EET`.
 ## Quick stats
 
 ```text
-age: 33
-experience in IT: 10+ years
+age: 36
+experience in IT: 12+ years
 my passion: software engineering
 current location: Ukraine
 e-mail: valera at rozuvan dot net (replace 'at' with '@' and 'dot' with '.')
@@ -24,10 +24,10 @@ A creative programmer and a heavy Linux user. Started tinkering with computers a
 I believe in the future of web interfaces to just about everything you can imagine! JavaScript is getting its grip on all major domains of human interaction, and I will be there to harness all the new possibilities. I am continuously looking into new ways to unleash the hidden potential of The Language That Can - of the language JavaScript!
 
 Another area of interest is working with C/C++. Building applications involving computer vision, real-time video processing, 3D rendering, and system programming in general. IoT (Internet of Things) and hardware (embedded PCs, robotics, flying drones) are two domains where I participated in some very interesting projects.
- 
+
 ## Experience
 
-Over the past 10 years I worked in many companies, and on many projects. I know people who keep working at a single  company for 5-10 years. Fortunately (or unfortunately) in the past I had to switch projects many times. Some reasons for relatively short stays with a project:
+Over the past 12 years I worked in many companies, and on many projects. I know people who keep working at a single company for 5-10 years. Fortunately (or unfortunately) in the past I had to switch projects many times. Some reasons for relatively short stays with a project:
 
 - project reached feature-complete status; it became unnecessary to keep many developers
 - finances were cut by the project leadership; some (or all) developers were disbanded
@@ -142,7 +142,7 @@ Technologies used:
 
 ### FejerPro: 2012
 
-I was part of a team working on developing a system for managing financial bills, orders, and processes within the system of chimney sweepers in Denmark. 
+I was part of a team working on developing a system for managing financial bills, orders, and processes within the system of chimney sweepers in Denmark.
 
 Responsibilities include:
 
@@ -158,7 +158,7 @@ Technologies used:
 
 ### Freelance: 2012
 
-Part of a freelancing group, I worked on several stand-alone web projects. 
+Part of a freelancing group, I worked on several stand-alone web projects.
 
 Some of the more notable projects:
 
@@ -193,20 +193,20 @@ Bachelor's degree, electrooptic and laser techniques and technology (2006-2013)
 
 ## Publications
 
-During my studies at school and university, I have published two papers in journals.  
+During my studies at school and university, I have published two papers in journals.
 
 1. Symmetry of the Modified Mandelbrot Set
 
 ```text
 Journal: π in the Sky
-Published: December 1, 2005 
+Published: December 1, 2005
 ```
 
 2. Modulo image encryption with fractal keys
 
 ```text
 Journal: Optics and Lasers in Engineering
-Published: January 1, 2009 
+Published: January 1, 2009
 ```
 
 For exact citations, please refer to my [Google Scholar](https://scholar.google.com.ua/citations?hl=en&user=1LY0cckAAAAJ) profile.
