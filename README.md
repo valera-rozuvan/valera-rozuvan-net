@@ -10,6 +10,12 @@ See live version at [https://valera.rozuvan.net/](https://valera.rozuvan.net/).
 
 You need [Bash](https://www.gnu.org/software/bash/), [Pandoc](https://pandoc.org/), and [Ruby](https://www.ruby-lang.org/).
 
+On a Debian-based system:
+
+```shell
+sudo aptitude install pandoc pandoc-data ruby-full
+```
+
 ## building
 
 Use the provided script [build.sh](./build.sh):
