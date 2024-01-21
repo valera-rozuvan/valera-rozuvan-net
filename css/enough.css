@@ -62,7 +62,7 @@ pre a, blockquote a {
     padding: 2em;
 
     color: #111111;
-    background: #f7f8f9;
+    background: #dde6f0;
 
     box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034),
     0 6.7px 5.3px rgba(0, 0, 0, 0.048),
@@ -99,24 +99,12 @@ pre a, blockquote a {
 
 @media (max-width: 375px) {
     body {
-        /*background: #f7f8f9;*/
         font-size: 0.9em;
-    }
-
-    .full-page {
-        /*box-shadow: none;*/
-        /*border-radius: 0;*/
     }
 }
 
 @media (max-width: 320px) {
     body {
-        /*background: #f7f8f9;*/
         font-size: 0.8em;
-    }
-
-    .full-page {
-        /*box-shadow: none;*/
-        /*border-radius: 0;*/
     }
 }
