@@ -188,7 +188,7 @@ Bachelor's degree, electrooptic and laser techniques and technology (2006-2013)
 - used Git, Mercurial, MS TFS, and SVN source code management systems extensively
 - all team based work using scrum methodology, familiar with scrum master role, agile processes
 - team player, strong believer that great things are not a one-man-job
-- English is my second language (after Russian), spent 6.5 years in Canada, completing high school
+- English is my second language (after Ukrainian), spent 6.5 years in Canada, completing high school
 - very strong independent worker, capable of finding a solution 100% on my own
 
 ## Publications
@@ -213,6 +213,5 @@ For exact citations, please refer to my [Google Scholar](https://scholar.google.
 
 ## Languages
 
-- Russian (native)
 - Ukrainian (native)
 - English (naturalized Canadian)
