@@ -4,12 +4,12 @@ title: Resume
 
 ## Last update
 
-This page was last updated on `Sun 09 Jan 2022 01:47:52 AM EET`.
+This page was last updated on `Sat 27 Jan 2024 01:17:37 PM EET`.
 
 ## Quick stats
 
 ```text
-age: 36
+age: 35
 experience in IT: 12+ years
 my passion: software engineering
 current location: Ukraine
