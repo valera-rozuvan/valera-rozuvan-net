@@ -54,7 +54,7 @@ mkdir -p "${BUILD_DIR}"
 rm -rf "${BUILD_DIR:?}"/*
 rm -rf "${BUILD_DIR}"/.gitignore
 
-cp --recursive ./.gitignore ./css ./images ./favicon.ico ./CNAME ./keybase.txt "${BUILD_DIR}"
+cp --recursive ./.gitignore ./css ./images ./favicon.ico ./CNAME "${BUILD_DIR}"
 
 mkdir -p ./tmp
 rm -rf ./tmp/*
@@ -62,6 +62,7 @@ rm -rf ./tmp/*
 # content templates
 SITE_BASE_URL="${SITE_BASE_URL}" erb ./_templates/content/index.md.erb >./tmp/index.md
 SITE_BASE_URL="${SITE_BASE_URL}" erb ./_templates/content/welcome.md.erb >./tmp/welcome.md
+SITE_BASE_URL="${SITE_BASE_URL}" erb ./_templates/content/site-shards.md.erb >./tmp/site-shards.md
 SITE_BASE_URL="${SITE_BASE_URL}" erb ./_templates/content/thoughts-and-ideas.md.erb >./tmp/thoughts-and-ideas.md
 SITE_BASE_URL="${SITE_BASE_URL}" erb ./_templates/content/how-this-site-is-built.md.erb >./tmp/how-this-site-is-built.md
 SITE_BASE_URL="${SITE_BASE_URL}" erb ./_templates/content/license.md.erb >./tmp/license.md
@@ -92,6 +93,7 @@ pandoc \
 pandoc \
   ./tmp/index.md \
   ./tmp/welcome.md \
+  ./tmp/site-shards.md \
   ./tmp/thoughts-and-ideas.md \
   ./tmp/how-this-site-is-built.md \
   ./tmp/license.md \
