@@ -37,14 +37,15 @@ Below is an accurate list of what I did so far in my career as a software engine
 
 ### Freelance: 2019 - now
 
-Because of the Covid-19 pandemic, and because I became a father, I switched to doing freelance work remotely. A few things I am engaged in now:
+Because of the Covid-19 pandemic, and because I became a father a second time, I switched to doing freelance work remotely. A few things I am engaged in now:
 
-- develop micro-services using Node.js and Python
-- serverless programming (via Node.js runtime on AWS Lambda)
-- front-end apps in React.js
+- back-end micro-services using [Node.js](https://nodejs.org/) and [Python](https://www.python.org/)
+- serverless programming (AWS Lambda, [Serverless Framework](https://www.serverless.com/))
+- front-end apps in [React](https://react.dev/)
+- GUI apps in [Electron](https://www.electronjs.org/)
 - maintain several open source NPM packages
-- DevOps/SysOps - AWS CloudFormation, AWS CDK, AWS in general
-- Linux server setup & administration (extensive Bash scripting & Ansible playbooks)
+- DevOps/SysOps - AWS CloudFormation, AWS CDK, configuring AWS infrastructure
+- Linux server setup and administration, extensive Bash scripting, Ansible playbooks
 
 ### Scout Gaming Group: 2018-2019
 
