@@ -415,6 +415,12 @@ Test this by editing the file `src/App.tsx`, and saving it. You should see that 
 
 We are at a point where we have a working application. We have used a minimal number of NPM dependencies. We also understand what is happening under the hood. The next steps are up to you! This starter project can become whatever you wish.
 
-I have taken this starter, and created a small application which generates GPG keys in the browser. You can see it live at [gpg-keys-online.rozuvan.net](https://gpg-keys-online.rozuvan.net/).
+I have taken this starter, and created a small application which generates GPG keys in the browser. You can see it live at [gpg-keys-online.rozuvan.net](https://gpg-keys-online.rozuvan.net/), and find the sources at [github.com/valera-rozuvan/react-from-scratch](https://github.com/valera-rozuvan/react-from-scratch).
+
+I also recorded several YouTube videos explaining the motivation behind this post, and how things work. You can watch these at:
+
+- [Setup React.js from scratch using TypeScript and WebPack](https://www.youtube.com/watch?v=FXvbgRYWxHc&list=PL9R9HKRuWxbh3aDCiSS-wl4LUjcm-LgKN&index=2)
+- [React with WebPack from scratch - part 2](https://www.youtube.com/watch?v=9QaqjGDx0xE&list=PL9R9HKRuWxbh3aDCiSS-wl4LUjcm-LgKN&index=1)
+- [React app using minimal NPM dependencies - part 3](https://www.youtube.com/watch?v=9Hwc4XftT8A&list=PL9R9HKRuWxbh3aDCiSS-wl4LUjcm-LgKN&index=1)
 
 So long and thanks for all the fish 😉
