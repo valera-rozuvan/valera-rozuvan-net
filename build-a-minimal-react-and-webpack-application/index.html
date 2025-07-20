@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Build a minimal React &amp; WebPack application</title>
+    <link rel="stylesheet" href="/css/highlight.css?v=namuhkaedovizrrr">
+    <link rel="stylesheet" href="/css/enough.css?v=obhuzrvcsfxqbumo">
+  </head>
+  <body>
+    <div class="full-page">
+    <div class="container">
+      <div class="footer">
+        <div class="caption">made with &#10084; by <a href="https://valera.rozuvan.net">Valera Rozuvan</a></div>
+      </div>
+    </div>
+    <div class="container">
+      <h1>Build a minimal React &amp; WebPack application</h1>
+      <h5>Sun 20 Jul 2025 11:09:17 AM EET</h5>
+<ul>
+<li><a href="#introduction" id="toc-introduction">Introduction</a></li>
+<li><a href="#on-choosing-a-bundler" id="toc-on-choosing-a-bundler">On
+choosing a bundler</a></li>
+<li><a href="#project-folder-file-structure"
+id="toc-project-folder-file-structure">Project folder &amp; file
+structure</a></li>
+<li><a href="#webpack-config" id="toc-webpack-config">WebPack
+config</a></li>
+<li><a href="#tsconfig" id="toc-tsconfig">TSConfig</a></li>
+<li><a href="#package-json" id="toc-package-json">Package JSON</a></li>
+<li><a href="#template-for-index.html"
+id="toc-template-for-index.html">Template for index.html</a></li>
+<li><a href="#application-entry-point"
+id="toc-application-entry-point">Application entry point</a></li>
+<li><a href="#top-level-react-component"
+id="toc-top-level-react-component">Top level React component</a></li>
+<li><a href="#build-script" id="toc-build-script">Build script</a></li>
+<li><a href="#testing-our-application"
+id="toc-testing-our-application">Testing our application</a></li>
+<li><a href="#auto-re-builds" id="toc-auto-re-builds">Auto
+re-builds</a></li>
+<li><a href="#next-steps" id="toc-next-steps">Next steps</a></li>
+</ul>
+<h2 id="introduction">Introduction</h2>
+<p>In 2025 - there are several well established React frameworks
+available:</p>
+<ul>
+<li><a href="https://vite.dev/">Vite</a></li>
+<li><a href="https://nextjs.org/">Next.js</a></li>
+<li><a href="https://github.com/facebook/create-react-app">CRA</a>
+(although it’s being <a
+href="https://github.com/reactjs/react.dev/pull/5487#issuecomment-1409720741">deprecated</a>
+by Facebook)</li>
+</ul>
+<p>Ever wonder what goes under the hood in such a framework? How do you
+bootstrap a minimal working React application, that can potentially be
+used in production? Or maybe you just don’t need the full feature set
+that the above frameworks offer, and want to create a minimal
+application with a minimal set of NPM dependencies?</p>
+<p>You are in luck! I am going to show you one of the ways to build a
+minimal React application using the <a
+href="https://webpack.js.org/">WebPack</a> bundler.</p>
+<h2 id="on-choosing-a-bundler">On choosing a bundler</h2>
+<p>A note on bundlers. Over the last 15 years (or so) many bundlers
+appeared on the scene. I.e. tools that take your source code, and
+produce a build folder that can be deployed to the web. They do things
+like minify the source code, inline code, resolve dependencies, connect
+other tools (linters, compilers, etc.), etc., etc. Some of the bundlers
+that I used in past projects are <a
+href="https://requirejs.org/">RequireJS</a>, <a
+href="https://rollupjs.org/">rollup.js</a>, <a
+href="https://browserify.org/">Browserify</a>, <a
+href="https://webpack.js.org/">Webpack</a>, <a
+href="https://swc.rs/">SWC</a>, <a href="https://rspack.rs/">Rspack</a>.
+Each bundler has their strengths and weaknesses. Each bundler can be
+measured against the other bundlers in terms of speed. Each bundler has
+a following, an ecosystem, and a dedicated development team.</p>
+<p>I am choosing Webpack here because of three reasons:</p>
+<ul>
+<li>it is pretty stable, and the plugin ecosystem is mature</li>
+<li>it has been out long enough to accumulate enough documentation
+and/or Q&amp;A on any issue you might come up with</li>
+<li>I have had more experience with it on commercial projects than with
+any other bundler</li>
+</ul>
+<h2 id="project-folder-file-structure">Project folder &amp; file
+structure</h2>
+<p>So - with the introduction out of the way - let’s jump right in! We
+are going to create a new project, and the following folder &amp; file
+structure:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> ~/dev/sample-project <span class="kw">&amp;&amp;</span> <span class="bu">cd</span> ~/dev/sample-project</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> ./public</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">touch</span> ./public/index.html</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> ./src</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">touch</span> ./src/index.tsx</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">touch</span> ./src/App.tsx</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">touch</span> ./build.sh</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">touch</span> ./package.json</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">touch</span> ./tsconfig.json</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">touch</span> ./webpack.config.js</span></code></pre></div>
+<p>Pretty bare-bones - two directories, and 7 files!</p>
+<h2 id="webpack-config">WebPack config</h2>
+<p>First up - the config for WebPack (the file
+<code>webpack.config.js</code>).</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> webpack <span class="op">=</span> <span class="pp">require</span>(<span class="st">&quot;webpack&quot;</span>)<span class="op">;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> path <span class="op">=</span> <span class="pp">require</span>(<span class="st">&quot;path&quot;</span>)<span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>module<span class="op">.</span><span class="at">exports</span> <span class="op">=</span> {</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">entry</span><span class="op">:</span> path<span class="op">.</span><span class="fu">join</span>(<span class="bu">__dirname</span><span class="op">,</span> <span class="st">&quot;src&quot;</span><span class="op">,</span> <span class="st">&quot;index.tsx&quot;</span>)<span class="op">,</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">output</span><span class="op">:</span> {</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">path</span><span class="op">:</span> path<span class="op">.</span><span class="fu">join</span>(<span class="bu">__dirname</span><span class="op">,</span> <span class="st">&quot;build&quot;</span>)<span class="op">,</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">filename</span><span class="op">:</span> <span class="st">&quot;[name].js&quot;</span><span class="op">,</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">module</span><span class="op">:</span> {</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">rules</span><span class="op">:</span> [</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>      {</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>        <span class="dt">test</span><span class="op">:</span> <span class="ss">/</span><span class="sc">\.</span><span class="ss">ts</span><span class="sc">(</span><span class="ss">x</span><span class="sc">?)$</span><span class="ss">/</span><span class="op">,</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>        <span class="dt">exclude</span><span class="op">:</span> <span class="ss">/node_modules/</span><span class="op">,</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        <span class="dt">loader</span><span class="op">:</span> <span class="st">&quot;ts-loader&quot;</span><span class="op">,</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>        <span class="dt">options</span><span class="op">:</span> {</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>          <span class="dt">context</span><span class="op">:</span> <span class="bu">__dirname</span><span class="op">,</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        }<span class="op">,</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>      }<span class="op">,</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">,</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="dt">resolve</span><span class="op">:</span> {</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    <span class="dt">extensions</span><span class="op">:</span> [<span class="st">&quot;.js&quot;</span><span class="op">,</span> <span class="st">&quot;.ts&quot;</span><span class="op">,</span> <span class="st">&quot;.tsx&quot;</span>]<span class="op">,</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  <span class="dt">plugins</span><span class="op">:</span> [</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="kw">new</span> webpack<span class="op">.</span><span class="fu">SourceMapDevToolPlugin</span>({ <span class="dt">filename</span><span class="op">:</span> <span class="st">&quot;[name].js.map&quot;</span> })<span class="op">,</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">,</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  <span class="dt">devtool</span><span class="op">:</span> <span class="kw">false</span><span class="op">,</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>  <span class="dt">mode</span><span class="op">:</span> <span class="st">&quot;development&quot;</span><span class="op">,</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  <span class="dt">infrastructureLogging</span><span class="op">:</span> {</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>    <span class="dt">level</span><span class="op">:</span> <span class="st">&quot;error&quot;</span><span class="op">,</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>  <span class="dt">stats</span><span class="op">:</span> <span class="st">&quot;errors-only&quot;</span><span class="op">,</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>}<span class="op">;</span></span></code></pre></div>
+<p>Pretty minimal - ehh?</p>
+<h2 id="tsconfig">TSConfig</h2>
+<p>Next - configuration for TypeScript (the file
+<code>tsconfig.json</code>):</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;compilerOptions&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;strict&quot;</span><span class="fu">:</span> <span class="kw">true</span><span class="fu">,</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;jsx&quot;</span><span class="fu">:</span> <span class="st">&quot;react&quot;</span><span class="fu">,</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;esModuleInterop&quot;</span><span class="fu">:</span> <span class="kw">true</span><span class="fu">,</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;lib&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;dom&quot;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;sourceMap&quot;</span><span class="fu">:</span> <span class="kw">true</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>We are going to use <code>strict</code> mode from the start so that
+later on in project development life cycle this will not be a pain
+point.</p>
+<h2 id="package-json">Package JSON</h2>
+<p>Next - let’s specify the dependencies we will need (the file
+<code>package.json</code>):</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;react-from-scratch&quot;</span><span class="fu">,</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;version&quot;</span><span class="fu">:</span> <span class="st">&quot;0.0.1&quot;</span><span class="fu">,</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;main&quot;</span><span class="fu">:</span> <span class="st">&quot;index.js&quot;</span><span class="fu">,</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;scripts&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;test&quot;</span><span class="fu">:</span> <span class="st">&quot;echo </span><span class="ch">\&quot;</span><span class="st">Error: no test specified</span><span class="ch">\&quot;</span><span class="st"> &amp;&amp; exit 1&quot;</span><span class="fu">,</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;build&quot;</span><span class="fu">:</span> <span class="st">&quot;webpack build&quot;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;author&quot;</span><span class="fu">:</span> <span class="st">&quot;Valera Rozuvan&quot;</span><span class="fu">,</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;license&quot;</span><span class="fu">:</span> <span class="st">&quot;MIT&quot;</span><span class="fu">,</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;description&quot;</span><span class="fu">:</span> <span class="st">&quot;just React, just WebPack - minimal NPM dependencies&quot;</span><span class="fu">,</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;repository&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;type&quot;</span><span class="fu">:</span> <span class="st">&quot;git&quot;</span><span class="fu">,</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;url&quot;</span><span class="fu">:</span> <span class="st">&quot;https://github.com/valera-rozuvan/react-from-scratch.git&quot;</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;engines&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;node&quot;</span><span class="fu">:</span> <span class="st">&quot;&gt;=16.0.0&quot;</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;overrides&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;@types/react&quot;</span><span class="fu">:</span> <span class="st">&quot;19.0.10&quot;</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;dependencies&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;react&quot;</span><span class="fu">:</span> <span class="st">&quot;19.0.0&quot;</span><span class="fu">,</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;react-dom&quot;</span><span class="fu">:</span> <span class="st">&quot;19.0.0&quot;</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;devDependencies&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;@types/react&quot;</span><span class="fu">:</span> <span class="st">&quot;19.0.10&quot;</span><span class="fu">,</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;@types/react-dom&quot;</span><span class="fu">:</span> <span class="st">&quot;19.0.4&quot;</span><span class="fu">,</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;@types/webpack&quot;</span><span class="fu">:</span> <span class="st">&quot;5.28.5&quot;</span><span class="fu">,</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;ts-loader&quot;</span><span class="fu">:</span> <span class="st">&quot;9.5.2&quot;</span><span class="fu">,</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;typescript&quot;</span><span class="fu">:</span> <span class="st">&quot;5.7.3&quot;</span><span class="fu">,</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;webpack&quot;</span><span class="fu">:</span> <span class="st">&quot;5.98.0&quot;</span><span class="fu">,</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;webpack-cli&quot;</span><span class="fu">:</span> <span class="st">&quot;6.0.1&quot;</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>Please install the NPM deps we have specified by running:</p>
+<pre class="shell"><code>npm install</code></pre>
+<p>This will pull a total of 139 child dependencies. Neat!</p>
+<h2 id="template-for-index.html">Template for index.html</h2>
+<p>The static page will host the generated bundle (the JS file
+containing our application and the React dependency). Let’s create it
+(the file <code>public/index.html</code>):</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">html</span> <span class="er">lang</span><span class="ot">=</span><span class="st">&quot;en&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">head</span><span class="dt">&gt;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">meta</span> <span class="er">charset</span><span class="ot">=</span><span class="st">&quot;utf-8&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">meta</span> <span class="er">http-equiv</span><span class="ot">=</span><span class="st">&quot;X-UA-Compatible&quot;</span> <span class="er">content</span><span class="ot">=</span><span class="st">&quot;IE=edge&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">meta</span> <span class="er">name</span><span class="ot">=</span><span class="st">&quot;viewport&quot;</span> <span class="er">content</span><span class="ot">=</span><span class="st">&quot;width=device-width, initial-scale=1&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">meta</span> <span class="er">name</span><span class="ot">=</span><span class="st">&quot;description&quot;</span> <span class="er">content</span><span class="ot">=</span><span class="st">&quot;minimal React application&quot;</span> <span class="dt">/&gt;</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">meta</span> <span class="er">name</span><span class="ot">=</span><span class="st">&quot;author&quot;</span> <span class="er">content</span><span class="ot">=</span><span class="st">&quot;Valera Rozuvan&quot;</span> <span class="dt">/&gt;</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">title</span><span class="dt">&gt;</span>Minimal React application<span class="dt">&lt;/</span><span class="kw">title</span><span class="dt">&gt;</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">script</span> <span class="er">defer</span> <span class="er">src</span><span class="ot">=</span><span class="st">&quot;main.js&quot;</span><span class="dt">&gt;&lt;/</span><span class="kw">script</span><span class="dt">&gt;</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">head</span><span class="dt">&gt;</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">body</span><span class="dt">&gt;</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">div</span> <span class="er">id</span><span class="ot">=</span><span class="st">&quot;root&quot;</span><span class="dt">&gt;&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">body</span><span class="dt">&gt;</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">html</span><span class="dt">&gt;</span></span></code></pre></div>
+<p>Note that we are including the <code>main.js</code> script. Since we
+are sticking to a minimal WebPack config (and a minimal number of NPM
+deps), we are crafting the <code>index.html</code> by hand.</p>
+<h2 id="application-entry-point">Application entry point</h2>
+<p>When WebPack starts bundling our application - it first looks at the
+entry point. Let’s define it (the file <code>src/index.tsx</code>):</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> React <span class="im">from</span> <span class="st">&quot;react&quot;</span><span class="op">;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { createRoot } <span class="im">from</span> <span class="st">&#39;react-dom/client&#39;</span><span class="op">;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> App <span class="im">from</span> <span class="st">&quot;./App&quot;</span><span class="op">;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> container <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="st">&#39;root&#39;</span>)<span class="op">;</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="op">!</span>container) {</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="st">&quot;Did not find an element with id &#39;root&#39;.&quot;</span>)<span class="op">;</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> <span class="bu">root</span> <span class="op">=</span> <span class="fu">createRoot</span>(container)<span class="op">;</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="bu">root</span><span class="op">.</span><span class="fu">render</span>(</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="op">&lt;</span>React<span class="op">.</span><span class="at">StrictMode</span><span class="op">&gt;</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">&lt;</span>App <span class="op">/&gt;</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="op">&lt;/</span>React<span class="op">.</span><span class="at">StrictMode</span><span class="op">&gt;,</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>)<span class="op">;</span></span></code></pre></div>
+<p><strong>NOTE</strong>: Our <code>index.html</code> file should have
+an element with the ID <code>root</code>.</p>
+<h2 id="top-level-react-component">Top level React component</h2>
+<p>Our application’s top level component will be the <code>App</code>
+React component (the file <code>src/App.tsx</code>):</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode typescript"><code class="sourceCode typescript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> React <span class="im">from</span> <span class="st">&#39;react&#39;</span><span class="op">;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">App</span>()<span class="op">:</span> React<span class="op">.</span><span class="at">ReactElement</span> {</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> (</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">&lt;&gt;</span>Hello<span class="op">,</span> world<span class="op">!&lt;/&gt;</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  )<span class="op">;</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="im">default</span> App<span class="op">;</span></span></code></pre></div>
+<p>As goes the tradition for these kinds of things - initially our
+application will show <code>Hello, world!</code>.</p>
+<h2 id="build-script">Build script</h2>
+<p>And the final cherry - which allows us to generate a production-ready
+build - is the build Bash script. Remember, we want a minimal WebPack
+config, meaning we are not using any 3rd party plugins. This results in
+fewer NPM dependencies. But this also means that we have to do several
+things by hand. So there goes (the file <code>build.sh</code>):</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">## --[ STEP 0 ]---------------------------------------------</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># This will cause the shell to exit immediately if a simple command exits with a nonzero exit value.</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="bu">set</span> <span class="at">-Eeuo</span> pipefail</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co">## --[ STEP 1 ]---------------------------------------------</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;Building...&quot;</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-rf</span> ./build</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> ./build</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> run build</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="co">## --[ STEP 2 ]---------------------------------------------</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;index HTML&quot;</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> ./public/index.html ./build/</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="co">## --[ STEP 3 ]---------------------------------------------</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Comment out the below 6 lines if you want to have source maps for debugging.</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;Uglify...&quot;</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="ex">uglifyjs</span> <span class="at">--compress</span> <span class="at">--mangle</span> <span class="at">--output</span> ./build/main.min.js <span class="at">--</span> ./build/main.js</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="at">-i</span> <span class="at">--</span> <span class="st">&#39;s/main/main.min/g&#39;</span> ./build/index.html</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-rf</span> <span class="st">&quot;./build/index.html--&quot;</span></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-rf</span> <span class="st">&quot;./build/main.js&quot;</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-rf</span> <span class="st">&quot;./build/main.js.map&quot;</span></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a><span class="co">## --[ STEP 4 ]---------------------------------------------</span></span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a><span class="co"># If we got here - all is good ;)</span></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;Done!&quot;</span></span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a><span class="bu">exit</span> 0</span></code></pre></div>
+<p>If you paid careful attention to what’s inside the build script - you
+might have noticed that we are using <a
+href="https://www.npmjs.com/package/uglify-js">uglifyjs</a> for
+minification. So, before running this build script, please install it
+globally like so:</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> install <span class="at">-g</span> uglify-js</span></code></pre></div>
+<h2 id="testing-our-application">Testing our application</h2>
+<p>Alright! If you managed to make it this far - let’s try and produce
+our first build. A small reminder - make sure that <code>build.sh</code>
+has executable permissions for your system user:</p>
+<pre class="shell"><code>chmod u+x ./build.sh
+./build.sh</code></pre>
+<p>You should see something like the following:</p>
+<pre class="text"><code>Building...
+
+&gt; react-from-scratch@0.0.1 build
+&gt; webpack build
+
+index HTML
+Uglify...
+Done!</code></pre>
+<p>You can now inspect the results in the generated <code>./build</code>
+folder. Go on, try and open the file <code>./build/index.html</code>
+with a web browser. You should get the <code>Hello, world!</code>
+message on a blank page.</p>
+<h2 id="auto-re-builds">Auto re-builds</h2>
+<p>If you want to ease the development, and have the
+<code>build.sh</code> script executed as you edit the source code, I
+have a handy <code>watch.js</code> script which does just that:</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> { exec } <span class="op">=</span> <span class="pp">require</span>(<span class="st">&#39;child_process&#39;</span>)<span class="op">;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> fs <span class="op">=</span> <span class="pp">require</span>(<span class="st">&#39;fs&#39;</span>)<span class="op">;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> chokidar <span class="op">=</span> <span class="pp">require</span>(<span class="st">&#39;chokidar&#39;</span>)<span class="op">;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">createErrorPage</span>(errorMsg) {</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> fileName <span class="op">=</span> <span class="st">&#39;./build/index.html&#39;</span><span class="op">;</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  fs<span class="op">.</span><span class="fu">writeFile</span>(fileName<span class="op">,</span> errorMsg<span class="op">.</span><span class="fu">replaceAll</span>(<span class="st">&#39;</span><span class="sc">\n</span><span class="st">&#39;</span><span class="op">,</span> <span class="st">&#39;&lt;br /&gt;&#39;</span>)<span class="op">,</span> (err) <span class="kw">=&gt;</span> {</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (err) {</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>      <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="st">&#39;Error creating or writing to file:&#39;</span><span class="op">,</span> err)<span class="op">;</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span><span class="op">;</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="vs">`Error page has been created.`</span>)<span class="op">;</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">runBashScript</span>(scriptPath<span class="op">,</span> args <span class="op">=</span> []) {</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="kw">new</span> <span class="bu">Promise</span>((resolve<span class="op">,</span> reject) <span class="kw">=&gt;</span> {</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> command <span class="op">=</span> <span class="vs">`</span><span class="sc">${</span>scriptPath<span class="sc">}</span><span class="vs"> </span><span class="sc">${</span>args<span class="op">.</span><span class="fu">join</span>(<span class="st">&#39; &#39;</span>)<span class="sc">}</span><span class="vs">`</span><span class="op">;</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">exec</span>(command<span class="op">,</span> (error<span class="op">,</span> stdout<span class="op">,</span> stderr) <span class="kw">=&gt;</span> {</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (error) {</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(stdout)<span class="op">;</span></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>        <span class="fu">reject</span>({ <span class="dt">shortMsg</span><span class="op">:</span> <span class="vs">`Error executing script: </span><span class="sc">${</span>error<span class="op">.</span><span class="at">message</span><span class="sc">}</span><span class="vs">`</span><span class="op">,</span> stdout<span class="op">,</span> stderr })<span class="op">;</span></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span><span class="op">;</span></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (stderr) {</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>        <span class="bu">console</span><span class="op">.</span><span class="fu">warn</span>(<span class="vs">`Script stderr: </span><span class="sc">${</span>stderr<span class="sc">}</span><span class="vs">`</span>)<span class="op">;</span></span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>      <span class="fu">resolve</span>(stdout)<span class="op">;</span></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> buildRunning <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> scheduleRun <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">runBuild</span>() {</span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (buildRunning) {</span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>    scheduleRun <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span><span class="op">;</span></span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a>  buildRunning <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">runBashScript</span>(<span class="st">&#39;./build.sh&#39;</span><span class="op">,</span> [<span class="st">&#39;arg1&#39;</span><span class="op">,</span> <span class="st">&#39;arg2&#39;</span>])</span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">then</span>((output) <span class="kw">=&gt;</span> {</span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a>      <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;Bash script output:&#39;</span>)<span class="op">;</span></span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a>      <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(output)<span class="op">;</span></span>
+<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a>      buildRunning <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (scheduleRun) {</span>
+<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a>        scheduleRun <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a>        <span class="fu">runBuild</span>()<span class="op">;</span></span>
+<span id="cb13-53"><a href="#cb13-53" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb13-55"><a href="#cb13-55" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">catch</span>((error) <span class="kw">=&gt;</span> {</span>
+<span id="cb13-56"><a href="#cb13-56" aria-hidden="true" tabindex="-1"></a>      <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="st">&#39;Error:&#39;</span><span class="op">,</span> error<span class="op">.</span><span class="at">shortMsg</span>)<span class="op">;</span></span>
+<span id="cb13-57"><a href="#cb13-57" aria-hidden="true" tabindex="-1"></a>      buildRunning <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb13-58"><a href="#cb13-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-59"><a href="#cb13-59" aria-hidden="true" tabindex="-1"></a>      <span class="fu">createErrorPage</span>(error<span class="op">.</span><span class="at">stdout</span> <span class="op">+</span> <span class="st">&#39;</span><span class="sc">\n</span><span class="st">&#39;</span> <span class="op">+</span> error<span class="op">.</span><span class="at">stderr</span>)<span class="op">;</span></span>
+<span id="cb13-60"><a href="#cb13-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-61"><a href="#cb13-61" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (scheduleRun) {</span>
+<span id="cb13-62"><a href="#cb13-62" aria-hidden="true" tabindex="-1"></a>        scheduleRun <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb13-63"><a href="#cb13-63" aria-hidden="true" tabindex="-1"></a>        <span class="fu">runBuild</span>()<span class="op">;</span></span>
+<span id="cb13-64"><a href="#cb13-64" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb13-65"><a href="#cb13-65" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb13-66"><a href="#cb13-66" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-67"><a href="#cb13-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-68"><a href="#cb13-68" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">addEventHandlers</span>(watcher) {</span>
+<span id="cb13-69"><a href="#cb13-69" aria-hidden="true" tabindex="-1"></a>  watcher</span>
+<span id="cb13-70"><a href="#cb13-70" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">on</span>(<span class="st">&#39;add&#39;</span><span class="op">,</span> <span class="kw">function</span>(path) {<span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;File&#39;</span><span class="op">,</span> path<span class="op">,</span> <span class="st">&#39;has been added&#39;</span>)<span class="op">;</span> <span class="fu">runBuild</span>()<span class="op">;</span>})</span>
+<span id="cb13-71"><a href="#cb13-71" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">on</span>(<span class="st">&#39;change&#39;</span><span class="op">,</span> <span class="kw">function</span>(path) {<span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;File&#39;</span><span class="op">,</span> path<span class="op">,</span> <span class="st">&#39;has been changed&#39;</span>)<span class="op">;</span> <span class="fu">runBuild</span>()<span class="op">;</span>})</span>
+<span id="cb13-72"><a href="#cb13-72" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">on</span>(<span class="st">&#39;unlink&#39;</span><span class="op">,</span> <span class="kw">function</span>(path) {<span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&#39;File&#39;</span><span class="op">,</span> path<span class="op">,</span> <span class="st">&#39;has been removed&#39;</span>)<span class="op">;</span> <span class="fu">runBuild</span>()<span class="op">;</span>})</span>
+<span id="cb13-73"><a href="#cb13-73" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">on</span>(<span class="st">&#39;error&#39;</span><span class="op">,</span> <span class="kw">function</span>(error) {<span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="st">&#39;Error happened&#39;</span><span class="op">,</span> error)<span class="op">;</span>})</span>
+<span id="cb13-74"><a href="#cb13-74" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-75"><a href="#cb13-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-76"><a href="#cb13-76" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">createWatcher</span>(path) {</span>
+<span id="cb13-77"><a href="#cb13-77" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> chokidar<span class="op">.</span><span class="fu">watch</span>(path<span class="op">,</span> {</span>
+<span id="cb13-78"><a href="#cb13-78" aria-hidden="true" tabindex="-1"></a>    <span class="dt">ignored</span><span class="op">:</span> <span class="ss">/</span><span class="sc">^\.</span><span class="ss">/</span><span class="op">,</span></span>
+<span id="cb13-79"><a href="#cb13-79" aria-hidden="true" tabindex="-1"></a>    <span class="dt">persistent</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb13-80"><a href="#cb13-80" aria-hidden="true" tabindex="-1"></a>    <span class="dt">awaitWriteFinish</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb13-81"><a href="#cb13-81" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
+<span id="cb13-82"><a href="#cb13-82" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-83"><a href="#cb13-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-84"><a href="#cb13-84" aria-hidden="true" tabindex="-1"></a>[<span class="st">&#39;src/&#39;</span><span class="op">,</span> <span class="st">&#39;public/&#39;</span><span class="op">,</span> <span class="st">&#39;webpack.config.js&#39;</span><span class="op">,</span> <span class="st">&#39;tsconfig.json&#39;</span><span class="op">,</span> <span class="st">&#39;package.json&#39;</span><span class="op">,</span> <span class="st">&#39;package-lock.json&#39;</span><span class="op">,</span> <span class="st">&#39;build.sh&#39;</span>]<span class="op">.</span><span class="fu">forEach</span>((path) <span class="kw">=&gt;</span> {</span>
+<span id="cb13-85"><a href="#cb13-85" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> watcher <span class="op">=</span> <span class="fu">createWatcher</span>(path)<span class="op">;</span></span>
+<span id="cb13-86"><a href="#cb13-86" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addEventHandlers</span>(watcher)<span class="op">;</span></span>
+<span id="cb13-87"><a href="#cb13-87" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code></pre></div>
+<p>To use it - you need to add one more dependency to the
+<code>package.json</code> file:</p>
+<pre class="text"><code>  &quot;chokidar&quot;: &quot;4.0.3&quot;,</code></pre>
+<p>Install it:</p>
+<pre class="shell"><code>npm install</code></pre>
+<p>Then you can run in a separate terminal:</p>
+<pre class="shell"><code>node ./watch.js</code></pre>
+<p>Test this by editing the file <code>src/App.tsx</code>, and saving
+it. You should see that the <code>build</code> folder was
+re-generated.</p>
+<h2 id="next-steps">Next steps</h2>
+<p>We are at a point where we have a working application. We have used a
+minimal number of NPM dependencies. We also understand what is happening
+under the hood. The next steps are up to you! This starter project can
+become whatever you wish.</p>
+<p>I have taken this starter, and created a small application which
+generates GPG keys in the browser. You can see it live at <a
+href="https://gpg-keys-online.rozuvan.net/">gpg-keys-online.rozuvan.net</a>.</p>
+<p>So long and thanks for all the fish 😉</p>
+    </div>
+    </div>
+  </body>
+</html>
